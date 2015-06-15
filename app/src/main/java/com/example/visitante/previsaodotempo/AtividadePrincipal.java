@@ -4,9 +4,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +19,7 @@ import java.util.List;
 @SuppressWarnings("deprecation")
 public class AtividadePrincipal extends ActionBarActivity {
 
-    private ListAdapter mAdaptador;
+    private ArrayAdapter<String> mAdaptador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,7 @@ public class AtividadePrincipal extends ActionBarActivity {
         };
 
         // Transforma dados em uma lista
-        List<String> previsao = new ArrayList<>( Arrays.asList(dados) );
+        List<String> previsao = new ArrayList<>(Arrays.asList(dados));
 
         // Cria o adaptador
         mAdaptador = new ArrayAdapter<>(
@@ -47,6 +50,8 @@ public class AtividadePrincipal extends ActionBarActivity {
         // Conecta a lista ao adaptador
         ListView listView = (ListView) findViewById(R.id.lista_principal);
         listView.setAdapter(mAdaptador);
+
+        listView.setOnItemClickListener(new ItemClicado());
     }
 
     @Override
@@ -69,5 +74,16 @@ public class AtividadePrincipal extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class ItemClicado implements AdapterView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Toast.makeText(getApplicationContext(),
+                    mAdaptador.getItem(position),
+                    Toast.LENGTH_SHORT
+            ).show();
+        }
     }
 }
